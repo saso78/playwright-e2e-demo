@@ -1,6 +1,53 @@
 import { test, expect } from '@playwright/test';
+import { getStoredUserData } from '../utils/readUserData';    
+test('test', async ({ page }) => {
 
-test ('Open Page',async ({ page }) =>{
-    await page.goto('https://automationexercise.com/')
-    await expect(page).toHaveTitle('Automation Exercise')
-})
+    const user = getStoredUserData();
+    
+  await page.goto('https://automationexercise.com/');
+  await expect(page.locator('#header')).toContainText('Home');
+  await page.getByRole('link', { name: ' Signup / Login' }).click();
+  await expect(page.locator('#form')).toContainText('New User Signup!');
+  await page.getByRole('textbox', { name: 'Name' }).click();
+  await page.getByRole('textbox', { name: 'Name' }).fill(user.name);
+//   await page.getByRole('textbox', { name: 'Name' }).press('Tab');
+  await page.locator('form').filter({ hasText: 'Signup' }).getByPlaceholder('Email Address').click();
+  await page.locator('form').filter({ hasText: 'Signup' }).getByPlaceholder('Email Address').fill(user.email);
+  await page.getByRole('button', { name: 'Signup' }).click();
+  await page.getByRole('radio', { name: 'Mr.' }).check();
+//   await page.getByRole('textbox', { name: 'Name *', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Password *' }).click();
+  await page.getByRole('textbox', { name: 'Password *' }).fill(user.password);
+  await page.getByText('Date of Birth').click();
+  await page.locator('#days').selectOption('4');
+  await page.locator('#months').selectOption('5');
+  await page.locator('#years').selectOption('2017');
+  await page.getByRole('checkbox', { name: 'Sign up for our newsletter!' }).check();
+  await page.getByRole('checkbox', { name: 'Receive special offers from' }).check();
+  await page.getByText('Address Information').click();
+  await page.getByRole('textbox', { name: 'First name *' }).click();
+  await page.getByRole('textbox', { name: 'First name *' }).fill('saso');
+  await page.getByRole('textbox', { name: 'Last name *' }).click();
+  await page.getByRole('textbox', { name: 'Last name *' }).fill('trest');
+  await page.getByRole('textbox', { name: 'Company', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Company', exact: true }).fill('test qa');
+  await page.getByRole('textbox', { name: 'Address * (Street address, P.' }).click();
+  await page.getByRole('textbox', { name: 'Address * (Street address, P.' }).fill(user.address1);
+  await page.getByRole('textbox', { name: 'Address 2' }).click();
+  await page.getByRole('textbox', { name: 'Address 2' }).fill(user.address2);
+  await page.getByLabel('Country *').selectOption('United States');
+  await page.getByRole('textbox', { name: 'State *' }).click();
+  await page.getByRole('textbox', { name: 'State *' }).fill('skopje');
+  await page.getByRole('textbox', { name: 'City * Zipcode *' }).click();
+  await page.getByRole('textbox', { name: 'City * Zipcode *' }).fill('skopje');
+  await page.locator('#zipcode').click();
+  await page.locator('#zipcode').fill('1000');
+  await page.getByRole('textbox', { name: 'Mobile Number *' }).click();
+  await page.getByRole('textbox', { name: 'Mobile Number *' }).fill('787878787');
+  await page.getByRole('button', { name: 'Create Account' }).click();
+  await expect(page.locator('b')).toContainText('Account Created!');
+  await page.getByRole('link', { name: 'Continue' }).click();
+  await page.getByRole('link', { name: ' Delete Account' }).click();
+  await expect(page.locator('b')).toContainText('Account Deleted!');
+  await page.getByRole('link', { name: 'Continue' }).click();
+});
