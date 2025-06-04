@@ -22,8 +22,9 @@ export function generateUserData() {
     city: 'Skopje',
     mobile_number: '071123456'
   };
-
-  const filePath = path.resolve(__dirname, '../data/testUsers.json');
-  fs.writeFileSync(filePath, JSON.stringify(userData, null, 2));
   return userData;
+
+  // const filePath = path.resolve(__dirname, '../data/testUsers.json');
+  // fs.writeFileSync(filePath, JSON.stringify(userData, null, 2));
+  // return userData;
 }

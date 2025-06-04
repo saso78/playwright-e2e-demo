@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { getStoredUserData } from '../utils/readUserData';    
+import {generateUserData} from '../utils/helpers'; 
 test('test', async ({ page }) => {
 
-    const user = getStoredUserData();
+    const user = generateUserData();
     
   await page.goto('https://automationexercise.com/');
   await expect(page.locator('#header')).toContainText('Home');
