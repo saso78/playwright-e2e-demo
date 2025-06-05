@@ -1,5 +1,4 @@
 import {Page, expect } from "@playwright/test";
-import {generateUserData} from '../utils/helpers';
 
 export class SignupPage{
     
@@ -36,24 +35,24 @@ export class SignupPage{
         await this.page.getByRole('checkbox', { name: 'Receive special offers from' }).check();
         await this.page.getByText('Address Information').click();
         await this.page.getByRole('textbox', { name: 'First name *' }).click();
-        await this.page.getByRole('textbox', { name: 'First name *' }).fill('saso');
+        await this.page.getByRole('textbox', { name: 'First name *' }).fill(user.name);
         await this.page.getByRole('textbox', { name: 'Last name *' }).click();
-        await this.page.getByRole('textbox', { name: 'Last name *' }).fill('trest');
+        await this.page.getByRole('textbox', { name: 'Last name *' }).fill(user.lastname);
         await this.page.getByRole('textbox', { name: 'Company', exact: true }).click();
-        await this.page.getByRole('textbox', { name: 'Company', exact: true }).fill('test qa');
+        await this.page.getByRole('textbox', { name: 'Company', exact: true }).fill(user.company);
         await this.page.getByRole('textbox', { name: 'Address * (Street address, P.' }).click();
         await this.page.getByRole('textbox', { name: 'Address * (Street address, P.' }).fill(user.address1);
         await this.page.getByRole('textbox', { name: 'Address 2' }).click();
         await this.page.getByRole('textbox', { name: 'Address 2' }).fill(user.address2);
         await this.page.getByLabel('Country *').selectOption('United States');
         await this.page.getByRole('textbox', { name: 'State *' }).click();
-        await this.page.getByRole('textbox', { name: 'State *' }).fill('skopje');
+        await this.page.getByRole('textbox', { name: 'State *' }).fill(user.state);
         await this.page.getByRole('textbox', { name: 'City * Zipcode *' }).click();
-        await this.page.getByRole('textbox', { name: 'City * Zipcode *' }).fill('skopje');
+        await this.page.getByRole('textbox', { name: 'City * Zipcode *' }).fill(user.city);
         await this.page.locator('#zipcode').click();
-        await this.page.locator('#zipcode').fill('1000');
+        await this.page.locator('#zipcode').fill(user.zipcode);
         await this.page.getByRole('textbox', { name: 'Mobile Number *' }).click();
-        await this.page.getByRole('textbox', { name: 'Mobile Number *' }).fill('787878787');
+        await this.page.getByRole('textbox', { name: 'Mobile Number *' }).fill(user.mobile_number);
     }
     async createAcc(){
             await this.page.getByRole('button', { name: 'Create Account' }).click();
@@ -67,4 +66,22 @@ export class SignupPage{
         await this.page.getByRole('link', { name: 'Continue' }).click();
     }
 
+    async logout(){
+        await this.page.getByRole('link', { name: 'Logout' }).click(); 
+
+    }
+
+    async login(user){
+
+        await this.page.getByRole('link', { name: ' Signup / Login' }).click();
+        await expect(this.page.locator('#form')).toContainText('Login to your account');
+        await this.page.locator('form').filter({ hasText: 'Login' }).getByPlaceholder('Email Address').click();
+        await this.page.locator('form').filter({ hasText: 'Login' }).getByPlaceholder('Email Address').fill(user.email);
+        await this.page.getByRole('textbox', { name: 'Password' }).click();
+        await this.page.getByRole('textbox', { name: 'Password' }).fill(user.password);
+        await this.page.getByRole('button', { name: 'Login' }).click();
+        await expect(this.page.getByText(`Logged in as ${user.name}`)).toBeVisible();
+    }
+  
+     
 }
