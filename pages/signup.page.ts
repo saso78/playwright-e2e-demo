@@ -82,6 +82,17 @@ export class SignupPage{
         await this.page.getByRole('button', { name: 'Login' }).click();
         await expect(this.page.getByText(`Logged in as ${user.name}`)).toBeVisible();
     }
+     async Invalidlogin(){
+
+        await this.page.getByRole('link', { name: ' Signup / Login' }).click();
+        await expect(this.page.locator('#form')).toContainText('Login to your account');
+        await this.page.locator('form').filter({ hasText: 'Login' }).getByPlaceholder('Email Address').click();
+        await this.page.locator('form').filter({ hasText: 'Login' }).getByPlaceholder('Email Address').fill("wrongemail@email.com");
+        await this.page.getByRole('textbox', { name: 'Password' }).click();
+        await this.page.getByRole('textbox', { name: 'Password' }).fill("user.password");
+        await this.page.getByRole('button', { name: 'Login' }).click();
+        await expect(this.page.getByText(`Your email or password is incorrect!`)).toBeVisible();
+    }
   
      
 }

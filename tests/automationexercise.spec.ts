@@ -30,3 +30,12 @@ test("Test Case 2: Login User with correct email and password", async ({
   await signupPage.logout();
   await signupPage.login(user);
 });
+
+test("Test Case 3: Login User with incorrect email and password",async({page,})=>{
+  const homePage = new HomePage(page)
+  const signupPage = new SignupPage(page)
+
+  await homePage.goto();
+  await signupPage.Invalidlogin();
+
+});
